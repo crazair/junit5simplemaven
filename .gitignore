@@ -12,6 +12,11 @@
 out
 gen
 .target
+target
 
 #Gradle files
 .gradle
+
+#Allure
+.allure
+allure-results
