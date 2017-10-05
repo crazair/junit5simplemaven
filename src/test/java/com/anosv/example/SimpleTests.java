@@ -8,16 +8,18 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.StringStartsWith.startsWith;
 import static org.hamcrest.Matchers.endsWith;
 
+import com.anosv.example.Lifecycle.TestLifecycleInterface;
 import org.junit.jupiter.api.*;
 
 @DisplayName("Набор простых тестов на JUnit 5! 😎😎😎")
-public class SimpleTests {
+public class SimpleTests implements TestLifecycleInterface {
 
     @BeforeAll //Метод, который выполяется перед тестовым набором (классом)
     static void initAll() {
     }
 
-    @BeforeEach //Метод, который выполяется перед каждым тестом
+    @BeforeEach
+        //Метод, который выполяется перед каждым тестом
     void init() {
     }
 
@@ -33,7 +35,7 @@ public class SimpleTests {
     @Test
     @Tag("jenkins")
     @DisplayName("Тест для запуска по тегам...")
-    //@RepeatedTest(5)            //Данный тест нужно запустить 5 раз! При этом, каждый такой вызов будет независимым тестом, а значит для него будут работать аннотации @BeforeAll, @BeforeEach, @AfterEach и @AfterAll.
+        //@RepeatedTest(5)            //Данный тест нужно запустить 5 раз! При этом, каждый такой вызов будет независимым тестом, а значит для него будут работать аннотации @BeforeAll, @BeforeEach, @AfterEach и @AfterAll.
     void jenkinsOnly() {
         fail("fail");
     }
@@ -70,7 +72,7 @@ public class SimpleTests {
     @Test
     @DisplayName("Тест показывающий работу 'предположения' (assumptions)")
     public void assumptions() {
-        assumeTrue(2==3);//Отключение теста только в зависимости от каких-то условий. В данном случае Bool значения.
+        assumeTrue(2 == 3);//Отключение теста только в зависимости от каких-то условий. В данном случае Bool значения.
         assertTrue(true);
     }
 
