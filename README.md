@@ -1,6 +1,6 @@
 # junit5simplemaven
 
-Run config: mvn surefire:test -Dtest=* allure:serve
+Архитектура тестового проекта с примерами на jUnit 5 + Selenium
 
 Полезные ссылки:
 - https://habrahabr.ru/post/337700/ - 10 интересных нововведений в JUnit 5

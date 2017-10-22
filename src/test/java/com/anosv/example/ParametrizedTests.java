@@ -1,6 +1,5 @@
 package com.anosv.example;
 
-import com.anosv.example.Lifecycle.TestLifecycleInterface;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.converter.JavaTimeConversionPattern;

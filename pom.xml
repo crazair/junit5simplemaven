@@ -8,35 +8,54 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
+    <developers>
+        <developer>
+            <id>owner</id>
+            <name>Anokhin Sergey</name>
+            <timezone>UTC+3</timezone>
+        </developer>
+    </developers>
+
+    <url>https://github.com/crazair/junit5simplemaven</url>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <junit.jupiter.version>5.0.1</junit.jupiter.version>
         <junit.platform.version>1.0.1</junit.platform.version>
-        <allure.maven.plugin>2.6</allure.maven.plugin>
-        <allure-junit5.version>2.0-BETA18</allure-junit5.version>
+        <maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
         <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
-        <allure-maven.version>2.8</allure-maven.version>
+        <org.seleniumhq.selenium>3.6.0</org.seleniumhq.selenium>
     </properties>
 
     <build>
         <plugins>
+            <!--Плагин compiler комплирует исходный java код приложения и тестов в байткод-->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>${maven.compiler.plugin.version}</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
+            <!--Плагин surefire реализует всю магию по исполнению юнит тестов-->
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.19.1</version>
+                <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <properties>
-                        <!-- <includeTags>fast</includeTags> -->
-                        <excludeTags>slow</excludeTags>
+                        <!-- includeTags>fast</includeTags -->
+                        <!-- excludeTags>slow</excludeTags -->
                     </properties>
+                    <includes>
+                        <include>com.anosv.example.ParametrizedTests</include>
+                        <include>com.anosv.example.SimpleSeleniumTests</include>
+                        <include>com.anosv.example.SimpleTests</include>
+                    </includes>
+                    <parallel>methods</parallel>
+                    <threadCount>10</threadCount>
                     <testFailureIgnore>true</testFailureIgnore>
                 </configuration>
                 <dependencies>
@@ -47,100 +66,43 @@
                     </dependency>
                 </dependencies>
             </plugin>
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven-surefire-plugin.version}</version>
-                <configuration>
-                    <properties>
-                        <property>
-                            <name>listener</name>
-                            <value>io.qameta.allure.junit5.AllureJunit5</value>
-                        </property>
-                    </properties>
-                    <systemProperties>
-                        <property>
-                            <name>allure.results.directory</name>
-                            <value>${project.build.directory}/allure-results</value>
-                        </property>
-                    </systemProperties>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.junit.platform</groupId>
-                        <artifactId>junit-platform-surefire-provider</artifactId>
-                        <version>${junit.platform.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.junit.jupiter</groupId>
-                        <artifactId>junit-jupiter-engine</artifactId>
-                        <version>${junit.jupiter.version}</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>io.qameta.allure</groupId>
-                <artifactId>allure-maven</artifactId>
-                <version>${allure-maven.version}</version>
-            </plugin>
         </plugins>
     </build>
-
     <dependencies>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.jupiter.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-params -->
+        <!--//for JUnit5 parametrized tests.-->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
             <version>${junit.jupiter.version}</version>
         </dependency>
-
-        <!-- Only required to run tests in an IDE that bundles an older version -->
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-launcher</artifactId>
-            <version>${junit.platform.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- Only required to run tests in an IDE that bundles an older version -->
+        <!--//for JUnit5 tests-->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
-        <!-- To avoid compiler warnings about @API annotations in JUnit code -->
-        <dependency>
-            <groupId>org.apiguardian</groupId>
-            <artifactId>apiguardian-api</artifactId>
-            <version>1.0.0</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest-all -->
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-all</artifactId>
             <version>1.3</version>
             <scope>test</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/ru.yandex.qatools.allure/allure-maven-plugin -->
         <dependency>
-            <groupId>ru.yandex.qatools.allure</groupId>
-            <artifactId>allure-maven-plugin</artifactId>
-            <version>${allure.maven.plugin}</version>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${org.seleniumhq.selenium}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-junit5 -->
+        <!-- Loging...-->
         <dependency>
-            <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-junit5</artifactId>
-            <version>${allure-junit5.version}</version>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
         </dependency>
-
-
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.6.4</version>
+        </dependency>
     </dependencies>
-
 </project>
