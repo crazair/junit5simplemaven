@@ -15,8 +15,8 @@ import java.util.concurrent.TimeUnit;
 public class BaseSeleniumTest {
 
     protected static final Logger LOG = Logger.getRootLogger();
-    private static final String PROPERTIES_URL = "application.properties";
-    private static Properties properties = new Properties();
+    protected static final String PROPERTIES_URL = "application.properties";
+    protected static Properties properties = new Properties();
     protected static String baseUrl;
     protected static WebDriver driver;
 
