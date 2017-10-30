@@ -11,8 +11,8 @@
 *.iml
 out
 gen
-#.target
-#target
+.target
+target
 
 #Gradle files
 .gradle
