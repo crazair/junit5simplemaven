@@ -1,4 +1,4 @@
-package driver;
+package com.anosv.example.driver;
 
 public enum DriverType {
     FIREFOX_ESR("firefox-esr"),

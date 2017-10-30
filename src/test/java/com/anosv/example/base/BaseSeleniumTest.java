@@ -22,7 +22,7 @@ public class BaseSeleniumTest {
 
     static {
         PropertyConfigurator.configure("log4j.properties");
-        System.setProperty("webdriver.ie.driver", "src/test/resources/IEDriverServer_x64_2.39.0.exe");
+        System.setProperty("webdriver.ie.com.anosv.example.driver", "src/test/resources/IEDriverServer_x64_2.39.0.exe");
     }
 
 

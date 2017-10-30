@@ -1,4 +1,4 @@
-package driver;
+package com.anosv.example.driver;
 
 import java.util.Arrays;
 import java.util.HashMap;
