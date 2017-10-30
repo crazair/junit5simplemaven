@@ -1,22 +1,29 @@
 package com.anosv.example;
 
+import com.anosv.example.Lifecycle.TestLifecycleInterface;
 import com.anosv.example.base.BaseSeleniumTest;
 
+import com.anosv.example.pages.YandexPage;
 import org.junit.jupiter.api.*;
 
 
-public class SimpleSeleniumTests extends BaseSeleniumTest {
+public class SimpleSeleniumTests extends BaseSeleniumTest implements TestLifecycleInterface {
 
-    //private static HomePage homepage = new HomePage(driver);
+    private YandexPage yandexPage;
+
+    @BeforeAll
+    void initPages() {
+        yandexPage = new YandexPage(driver);
+    }
 
     @Test
     @DisplayName("Пример теста с использованием selenium! 😎")
-    void testHomePageHasAHeader(TestInfo testInfo){
-        LOG.info("Start test: " + testInfo.getDisplayName());
-        driver.get(baseUrl);
-       // Assertions.assertFalse("".equals(homepage.getH1()));
-
+    void testYandexTitleEndEmptySearch() {
+        toBaseUrl();
+        Assertions.assertEquals(driver.getTitle(), "Яндекс");
+        yandexPage.search("");
         //try{Thread.sleep(5000);}catch (Exception e){}
+        Assertions.assertTrue(yandexPage.getLeftDivText().contains("Задан пустой поисковый запрос"));
     }
 
 }

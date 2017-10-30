@@ -1,29 +1,32 @@
 package com.anosv.example.Lifecycle;
 
+import org.apache.log4j.Logger;
 import org.junit.jupiter.api.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public interface TestLifecycleInterface {
 
+    Logger LOGGER = Logger.getRootLogger();
+
     @BeforeAll
     default void beforeAllTests() {
-        System.out.println("Before all tests");
+        LOGGER.info("Before all tests");
     }
 
     @AfterAll
     default void afterAllTests() {
-        System.out.println("After all tests");
+        LOGGER.info("After all tests");
     }
 
     @BeforeEach
     default void beforeEachTest(TestInfo testInfo) {
-        System.out.println(String.format("About to execute [%s]",
+        LOGGER.info(String.format("About to execute [%s]",
                 testInfo.getDisplayName()));
     }
 
     @AfterEach
     default void afterEachTest(TestInfo testInfo) {
-        System.out.println(String.format("Finished executing [%s]",
+        LOGGER.info(String.format("Finished executing [%s]",
                 testInfo.getDisplayName()));
     }
 }
