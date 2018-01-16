@@ -33,6 +33,20 @@ public class SimpleTests implements TestLifecycleInterface {
     }
 
     @Test
+    @DisplayName("Мой первый тест проверяющий сложение! 😎")
+    void myFirstTest2(TestInfo testInfo) {           //методы пишутся без public!
+        assertTrue(2 == 3, () -> "Assertion messages can be lazily evaluated -- "
+                + "to avoid constructing complex messages unnecessarily.");
+    }
+
+    @DisplayName("Тест с повторением! 😎")
+    @RepeatedTest(3)
+    void myRepeatedTest() {           //методы пишутся без public!
+        Calculator calculator = new Calculator();
+        assertEquals(2, calculator.add(1, 1), "1 + 1 should equal 2");
+    }
+
+    @Test
     @Tag("jenkins")
     @DisplayName("Тест для запуска по тегам...")
         //@RepeatedTest(5)            //Данный тест нужно запустить 5 раз! При этом, каждый такой вызов будет независимым тестом, а значит для него будут работать аннотации @BeforeAll, @BeforeEach, @AfterEach и @AfterAll.

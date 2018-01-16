@@ -21,12 +21,13 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <junit.jupiter.version>5.0.1</junit.jupiter.version>
-        <junit.platform.version>1.0.1</junit.platform.version>
+        <junit.jupiter.version>5.0.2</junit.jupiter.version>
+        <junit.platform.version>1.0.2</junit.platform.version>
         <maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
         <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
         <org.seleniumhq.selenium>3.6.0</org.seleniumhq.selenium>
         <htmlelements.version>1.18</htmlelements.version>
+        <aspectj.version>1.8.13</aspectj.version>
     </properties>
 
     <build>
@@ -41,6 +42,7 @@
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
+
             <!--Плагин surefire реализует всю магию по исполнению юнит тестов-->
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -52,12 +54,24 @@
                     </properties>
                     <includes>
                         <include>com.anosv.example.ParametrizedTests</include>
-                        <include>com.anosv.example.SimpleSeleniumTests</include>
+                        <include>com.anosv.example.SelenideTests</include>
                         <include>com.anosv.example.SimpleTests</include>
                     </includes>
-                    <parallel>methods</parallel>
-                    <threadCount>10</threadCount>
+                    <!--parallel>methods</parallel>
+                    <threadCount>10</threadCount-->
                     <testFailureIgnore>true</testFailureIgnore>
+                    <argLine>
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                    </argLine>
+                    <systemProperties>
+                        <property>
+                            <name>junit.jupiter.extensions.autodetection.enabled</name>
+                            <value>true</value>
+                        </property>
+                    </systemProperties>
+                    <systemPropertyVariables>
+                        <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
+                    </systemPropertyVariables>
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -65,7 +79,21 @@
                         <artifactId>junit-platform-surefire-provider</artifactId>
                         <version>${junit.platform.version}</version>
                     </dependency>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjweaver</artifactId>
+                        <version>${aspectj.version}</version>
+                    </dependency>
                 </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <reportVersion>2.4.1</reportVersion>
+                    <resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -116,5 +144,20 @@
             <artifactId>webdrivermanager</artifactId>
             <version>1.7.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.codeborne</groupId>
+            <artifactId>selenide</artifactId>
+            <version>4.8</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-junit5</artifactId>
+            <version>2.0-BETA21</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 </project>
